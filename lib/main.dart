@@ -25,11 +25,13 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // 1. BARRA SUPERIOR
       appBar: AppBar(
         backgroundColor: navyBlue,
         elevation: 10,
         shadowColor: gold.withOpacity(0.3),
-        // Icono hamburguesa automático por el drawer
+        centerTitle: true,
+        // Color de los íconos de la AppBar (Hamburguesa y Ajustes)
         iconTheme: IconThemeData(color: gold), 
         title: Text(
           "CANIS ACADEMIA",
@@ -40,27 +42,51 @@ class HomeScreen extends StatelessWidget {
             fontSize: 18,
           ),
         ),
-        centerTitle: true,
+        // 2. ÍCONO DE AJUSTES (Derecha)
         actions: [
           IconButton(
-            icon: Icon(Icons.settings, color: gold),
-            onPressed: () {},
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              // Acción para abrir ajustes
+            },
           ),
         ],
       ),
+
+      // 3. MENÚ HAMBURGUESA (Izquierda)
+      // Al agregar 'drawer', Flutter pone automáticamente el ícono de hamburguesa a la izquierda
       drawer: Drawer(
         child: Container(
           color: navyBlue,
-          child: Center(child: Text("Menú", style: TextStyle(color: gold))),
+          child: Column(
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(color: navyBlue),
+                child: Center(
+                  child: Text(
+                    "CANIS ACADEMIA", 
+                    style: TextStyle(color: gold, fontSize: 20, fontWeight: FontWeight.bold)
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.home, color: gold),
+                title: const Text("Inicio", style: TextStyle(color: Colors.white)),
+                onTap: () => Navigator.pop(context),
+              ),
+            ],
+          ),
         ),
       ),
+
+      // 4. CUERPO CON WIDGETS LARGOS
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: GridView.count(
-          crossAxisCount: 2,          // 2 columnas
-          crossAxisSpacing: 20,       // Espacio lateral
-          mainAxisSpacing: 20,        // Espacio vertical
-          childAspectRatio: 0.7,      // <--- CLAVE: Menor a 1.0 los hace más ALTOS que anchos
+          crossAxisCount: 2,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
+          childAspectRatio: 0.7, // Mantiene el formato largo (vertical)
           children: [
             _buildTallCard("Cursos", Icons.menu_book_rounded),
             _buildTallCard("Nosotros", Icons.groups_rounded),
@@ -75,25 +101,24 @@ class HomeScreen extends StatelessWidget {
   Widget _buildTallCard(String title, IconData icon) {
     return Container(
       decoration: BoxDecoration(
-        color: navyBlue, // Fondo azul marino para el widget
+        color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: gold, width: 2), // Borde dorado
+        border: Border.all(color: navyBlue, width: 2.5), 
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            blurRadius: 8,
-            offset: const Offset(0, 5),
+            color: navyBlue.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Círculo decorativo para el icono
           Container(
             padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
-              color: gold.withOpacity(0.1),
+              color: navyBlue, 
               shape: BoxShape.circle,
             ),
             child: Icon(icon, size: 45, color: gold),
@@ -102,19 +127,21 @@ class HomeScreen extends StatelessWidget {
           Text(
             title.toUpperCase(),
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: navyBlue, 
               fontWeight: FontWeight.bold,
               fontSize: 14,
               letterSpacing: 1.1,
             ),
           ),
           const SizedBox(height: 10),
-          // Una línea decorativa pequeña
           Container(
             width: 40,
-            height: 2,
-            color: gold,
+            height: 3,
+            decoration: BoxDecoration(
+              color: gold,
+              borderRadius: BorderRadius.circular(10),
+            ),
           )
         ],
       ),
